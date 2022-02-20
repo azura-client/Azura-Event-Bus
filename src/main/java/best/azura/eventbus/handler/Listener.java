@@ -1,10 +1,12 @@
 package best.azura.eventbus.handler;
 
+import best.azura.eventbus.core.Event;
+
 /**
  * @author Solastis
  * DATE:19.12.21
  */
-public interface Listener<Event> {
+public interface Listener {
 
     /**
      * Method for calling an event

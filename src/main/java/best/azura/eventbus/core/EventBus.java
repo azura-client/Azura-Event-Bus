@@ -8,6 +8,7 @@ import best.azura.eventbus.handler.Listener;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 
 public class EventBus {
@@ -54,11 +55,17 @@ public class EventBus {
             for (final EventObject eventObject : objects)
                 for (final EventExecutable eventExecutable : eventObject.getEventExecutables()) {
                     if (eventExecutable.getField() != null) {
-                        try {
+                        /*try {
                             eventExecutable.getField().setAccessible(true);
                             ((Listener<Event>) eventExecutable.getField().get(eventObject.getObject())).call(event);
                         } catch (Exception ignored) {
-                        }
+                        }*/
+                        try {
+                            eventExecutable.getField().setAccessible(true);
+                            final EventHandler eventHandler = eventExecutable.getField().getAnnotation(EventHandler.class);
+                            if (Arrays.stream(eventHandler.targets()).anyMatch(e -> e == event.getClass() || e == Event.class))
+                                ((Listener) eventExecutable.getField().get(eventObject.getObject())).call(event);
+                        } catch (Exception ignored) {}
                     }
                     if (eventExecutable.getMethod() != null) {
                         if (isValidMethod(eventExecutable.getMethod(), event.getClass()) ||
