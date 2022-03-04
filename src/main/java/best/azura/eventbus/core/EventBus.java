@@ -7,6 +7,7 @@ import best.azura.eventbus.handler.Listener;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -55,16 +56,15 @@ public class EventBus {
             for (final EventObject eventObject : objects)
                 for (final EventExecutable eventExecutable : eventObject.getEventExecutables()) {
                     if (eventExecutable.getField() != null) {
-                        /*try {
-                            eventExecutable.getField().setAccessible(true);
-                            ((Listener<Event>) eventExecutable.getField().get(eventObject.getObject())).call(event);
-                        } catch (Exception ignored) {
-                        }*/
                         try {
                             eventExecutable.getField().setAccessible(true);
-                            final EventHandler eventHandler = eventExecutable.getField().getAnnotation(EventHandler.class);
-                            if (Arrays.stream(eventHandler.targets()).anyMatch(e -> e == event.getClass() || e == Event.class))
-                                ((Listener) eventExecutable.getField().get(eventObject.getObject())).call(event);
+                            if (eventExecutable.getField().getGenericType() instanceof ParameterizedType) {
+                                ParameterizedType type = (ParameterizedType) eventExecutable.getField().getGenericType();
+                                if (type.getActualTypeArguments().length > 0) {
+                                    if (type.getActualTypeArguments()[0] == event.getClass() || type.getActualTypeArguments()[0] == Event.class)
+                                        ((Listener<Event>) eventExecutable.getField().get(eventObject.getObject())).call(event);
+                                }
+                            }
                         } catch (Exception ignored) {}
                     }
                     if (eventExecutable.getMethod() != null) {
