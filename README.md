@@ -1,7 +1,7 @@
 # Azura-Event-Bus
 ###### A simple EventBus made for daily use.
 
-##Maven [![](https://jitpack.io/v/azura-client/Azura-Event-Bus.svg)](https://jitpack.io/#azura-client/Azura-Event-Bus)
+## Maven [![](https://jitpack.io/v/azura-client/Azura-Event-Bus.svg)](https://jitpack.io/#azura-client/Azura-Event-Bus)
 ```
 <repositories>
 	<repository>
@@ -19,7 +19,7 @@
 </dependencies>
 ```
 
-##Note
+## Note
 Most code is made by Error 🙏 <br>
 And refinement made by Solastis
 
