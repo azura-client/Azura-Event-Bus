@@ -1,7 +1,5 @@
 # Azura-Event-Bus
-######A simple EventBus made for daily use.
-
----
+###### A simple EventBus made for daily use.
 
 ##Maven [![](https://jitpack.io/v/azura-client/Azura-Event-Bus.svg)](https://jitpack.io/#azura-client/Azura-Event-Bus)
 ```
