@@ -19,9 +19,5 @@
 </dependencies>
 ```
 
-## Note
-Most code is made by Error 🙏 <br>
-And refinement made by Solastis
-
 ## License
 GNU General Public License
