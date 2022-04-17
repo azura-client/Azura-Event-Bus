@@ -21,3 +21,6 @@
 
 ## License
 GPL-3.0 License
+
+It's Error's balls code, not mine
+ -Solastis
