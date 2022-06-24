@@ -1,33 +1,67 @@
 package best.azura.eventbus.handler;
 
+import best.azura.eventbus.core.Event;
+import best.azura.eventbus.core.EventPriority;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 public class EventExecutable {
-    //Method instances for registered methods
-    private final Method method;
 
-    //Field instance for registered listeners
-    private final Field field;
+    //Parental object
+    private final Object parent;
 
-    public EventExecutable(final Method method, final Field field) {
-        this.method = method;
-        this.field = field;
+    //MethodHandler instance for registered methods
+    private MethodHandler method;
+
+    //ListenerHandler instance for registered listeners
+    private ListenerHandler<? extends Event> listener;
+
+    //Priority inside event system
+    private final EventPriority eventPriority;
+
+    public EventExecutable(final Method method, final Field field, final Object parent, final EventPriority eventPriority) {
+        this.parent = parent;
+        this.eventPriority = eventPriority;
+        //Registering a listener if the field isn't null
+        if (field != null) {
+            try {
+                field.setAccessible(true);
+                this.listener = new ListenerHandler<>(field.getGenericType(), (Listener<?>) field.get(parent));
+            } catch (Exception e) {
+                this.listener = null;
+                e.printStackTrace();
+            }
+        } else {
+            this.listener = null;
+        }
+        //Registering the method if it isn't null
+        if (method != null && method.getParameterCount() == 1) {
+            this.method = new MethodHandler(method, parent);
+        }
     }
 
-    public EventExecutable(final Method method) {
-        this(method, null);
+    public EventExecutable(final Method method, final Object parent, final EventPriority eventPriority) {
+        this(method, null, parent, eventPriority);
     }
 
-    public EventExecutable(final Field field) {
-        this(null, field);
+    public EventExecutable(final Field field, final Object parent, final EventPriority eventPriority) {
+        this(null, field, parent, eventPriority);
     }
 
-    public Field getField() {
-        return field;
-    }
-
-    public Method getMethod() {
+    public MethodHandler getMethod() {
         return method;
+    }
+
+    public ListenerHandler<? extends Event> getListener() {
+        return listener;
+    }
+
+    public Object getParent() {
+        return parent;
+    }
+
+    public EventPriority getEventPriority() {
+        return eventPriority;
     }
 }

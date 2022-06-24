@@ -2,11 +2,11 @@ package best.azura.eventbus.core;
 
 public enum EventPriority {
     //Priority of the events
-    LOWEST(0),
-    LOWER(1),
+    LOWEST(4),
+    LOWER(3),
     DEFAULT(2),
-    HIGHER(3),
-    HIGHEST(4);
+    HIGHER(1),
+    HIGHEST(0);
 
     private final int priority;
 
