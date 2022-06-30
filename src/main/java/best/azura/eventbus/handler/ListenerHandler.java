@@ -18,7 +18,9 @@ public class ListenerHandler<T extends Event> {
 
     @SuppressWarnings("unchecked")
     public void call(final Event event) {
-        if (!this.typeClass.equals(event.getClass()) && !this.typeClass.equals(Event.class)) return;
+        if (!this.typeClass.equals(event.getClass()) &&
+                !this.typeClass.equals(Event.class)) return;
+
         this.listener.call((T) event);
     }
 

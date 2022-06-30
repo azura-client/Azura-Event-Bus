@@ -29,16 +29,12 @@ public class EventBus {
             executables.add(new EventExecutable(method, object, method.getDeclaredAnnotation(EventHandler.class).value()));
         }
         for (final Field field : object.getClass().getDeclaredFields()) {
-            if (!field.isAnnotationPresent(EventHandler.class)) continue;
-            try {
-                field.setAccessible(true);
-                if (!(field.get(object) instanceof Listener)) continue;
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            }
+            if (!field.isAnnotationPresent(EventHandler.class) ||
+                    !field.getType().isAssignableFrom(Listener.class)) continue;
+
             executables.add(new EventExecutable(field, object, field.getDeclaredAnnotation(EventHandler.class).value()));
         }
-        executables.sort(Comparator.comparingInt(o1 -> o1.getEventPriority().getPriority()));
+        executables.sort(Comparator.comparingInt(EventExecutable::getPriority));
     }
 
     /**

@@ -20,11 +20,16 @@ public class MethodHandler {
 
     private boolean isValid(Method method) {
         if (method.getParameterCount() == 0) return false;
-        if (method.getParameterTypes()[0].getInterfaces().length != 0)
-            return this.isValid(method.getParameterTypes()[0].getInterfaces()[0]);
-        if (this.isValid(this.method.getParameterTypes()[0]) || this.isValid(this.method.getParameterTypes()[0].getSuperclass()))
+
+        Class<?> parameterTypes = method.getParameterTypes()[0];
+        Class<?>[] interfaces = parameterTypes.getInterfaces();
+        Class<?> superclass = parameterTypes.getSuperclass();
+
+        if (interfaces.length != 0)
+            return this.isValid(interfaces[0]);
+        if (this.isValid(parameterTypes) || this.isValid(superclass))
             return true;
-        return this.isValid(this.method.getParameterTypes()[0].getSuperclass().getInterfaces()[0]);
+        return this.isValid(superclass.getInterfaces()[0]);
     }
 
     private boolean isValid(Class<?> clazz) {

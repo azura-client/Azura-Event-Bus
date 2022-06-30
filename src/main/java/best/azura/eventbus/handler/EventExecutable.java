@@ -20,9 +20,12 @@ public class EventExecutable {
     //Priority inside event system
     private final EventPriority eventPriority;
 
+    private final int priority;
+
     public EventExecutable(final Method method, final Field field, final Object parent, final EventPriority eventPriority) {
         this.parent = parent;
         this.eventPriority = eventPriority;
+        priority = eventPriority.getPriority();
         //Registering a listener if the field isn't null
         if (field != null) {
             try {
@@ -63,5 +66,9 @@ public class EventExecutable {
 
     public EventPriority getEventPriority() {
         return eventPriority;
+    }
+
+    public int getPriority() {
+        return priority;
     }
 }
