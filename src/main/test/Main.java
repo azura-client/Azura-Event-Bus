@@ -11,7 +11,7 @@ public enum Main {
     final EventBus eventBus = new EventBus();
 
     public static void main(String[] args) {
-        int epochs = 10;
+        int epochs = 100;
         double[] times = new double[epochs];
         INSTANCE.eventBus.register(INSTANCE);
         for (int j = 0; j < epochs; j++) {
@@ -28,7 +28,7 @@ public enum Main {
         System.out.printf("|%-10s|%-10s|%n", "Epoch", "Time");
 
         for (int i = 0; i < epochs; i++) {
-            System.out.printf("|%-10d|%-10.2f|%n", i, times[i]);
+            System.out.printf("|%-10d|%-10.2f|%n", i + 1, times[i]);
         }
 
         System.out.println("Result of " + epochs + " epochs: " + Arrays.toString(times));
