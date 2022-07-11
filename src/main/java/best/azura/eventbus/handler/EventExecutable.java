@@ -17,15 +17,22 @@ public class EventExecutable {
     //ListenerHandler instance for registered listeners
     private ListenerHandler<? extends Event> listener;
 
-    //Priority inside event system
-    private final EventPriority eventPriority;
-
     private final int priority;
 
+    public EventExecutable(final Method method, final Object parent, final EventPriority eventPriority) {
+        this(method, null, parent, eventPriority);
+    }
+
+    public EventExecutable(final Field field, final Object parent, final EventPriority eventPriority) {
+        this(null, field, parent, eventPriority);
+    }
+
     public EventExecutable(final Method method, final Field field, final Object parent, final EventPriority eventPriority) {
+        this(method, field, parent, eventPriority.getPriority());
+    }
+    public EventExecutable(final Method method, final Field field, final Object parent, final int priority) {
         this.parent = parent;
-        this.eventPriority = eventPriority;
-        priority = eventPriority.getPriority();
+        this.priority = priority;
         //Registering a listener if the field isn't null
         if (field != null) {
             try {
@@ -44,14 +51,6 @@ public class EventExecutable {
         }
     }
 
-    public EventExecutable(final Method method, final Object parent, final EventPriority eventPriority) {
-        this(method, null, parent, eventPriority);
-    }
-
-    public EventExecutable(final Field field, final Object parent, final EventPriority eventPriority) {
-        this(null, field, parent, eventPriority);
-    }
-
     public MethodHandler getMethod() {
         return method;
     }
@@ -62,10 +61,6 @@ public class EventExecutable {
 
     public Object getParent() {
         return parent;
-    }
-
-    public EventPriority getEventPriority() {
-        return eventPriority;
     }
 
     public int getPriority() {

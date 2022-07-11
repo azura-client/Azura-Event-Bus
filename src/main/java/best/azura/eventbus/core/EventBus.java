@@ -13,7 +13,7 @@ public class EventBus {
 
     /**
      * List of all executables in the event system
-     * */
+     */
     private final ArrayList<EventExecutable> executables = new ArrayList<>();
 
     /**
@@ -24,13 +24,13 @@ public class EventBus {
     public void register(final Object object) {
         if (isRegistered(object)) return;
         for (final Method method : object.getClass().getDeclaredMethods()) {
-            if (!method.isAnnotationPresent(EventHandler.class)) continue;
-            if (method.getParameterCount() <= 0) continue;
+            if (!method.isAnnotationPresent(EventHandler.class)
+                    || method.getParameterCount() <= 0) continue;
             executables.add(new EventExecutable(method, object, method.getDeclaredAnnotation(EventHandler.class).value()));
         }
         for (final Field field : object.getClass().getDeclaredFields()) {
-            if (!field.isAnnotationPresent(EventHandler.class) ||
-                    !field.getType().isAssignableFrom(Listener.class)) continue;
+            if (!field.isAnnotationPresent(EventHandler.class)
+                    || !field.getType().isAssignableFrom(Listener.class)) continue;
 
             executables.add(new EventExecutable(field, object, field.getDeclaredAnnotation(EventHandler.class).value()));
         }
@@ -43,17 +43,11 @@ public class EventBus {
      * @param event the event that should be called
      */
     public void call(final Event event) {
-        try {
-            for (final EventExecutable eventExecutable : executables) {
-                try {
-                    if (eventExecutable.getListener() != null)
-                        eventExecutable.getListener().call(event);
-                    if (eventExecutable.getMethod() != null)
-                        eventExecutable.getMethod().call(event);
-                } catch (Exception ignored) {
-                }
-            }
-        } catch (Exception ignored) {
+        for (final EventExecutable eventExecutable : executables) {
+            if (eventExecutable.getListener() != null)
+                eventExecutable.getListener().call(event);
+            if (eventExecutable.getMethod() != null)
+                eventExecutable.getMethod().call(event);
         }
     }
 
