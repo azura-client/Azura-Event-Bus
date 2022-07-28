@@ -12,7 +12,7 @@
 
 <dependencies>
   <dependency>
-    <groupId>com.github.azura-client</groupId>
+    <groupId>best.azura</groupId>
     <artifactId>Azura-Event-Bus</artifactId>
     <version>Tag</version>
   </dependency>
