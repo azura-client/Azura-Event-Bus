@@ -24,15 +24,14 @@
 ##### Add jitpack repository to your gradle project.
 ```gradle
 repositories {
-			...
-			maven { url 'https://jitpack.io' }
-		}
+    maven { url 'https://jitpack.io' }
+}
 ```
 ##### Add the Eventbus
 ```gradle
-	dependencies {
-	        implementation 'com.github.azura-client:Azura-Event-Bus:Tag'
-	}
+dependencies {
+    implementation 'com.github.azura-client:Azura-Event-Bus:Tag'
+}
 ```
 ## License
 GPL-3.0 License
