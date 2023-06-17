@@ -8,13 +8,15 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Iterator;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class EventBus {
 
     /**
      * List of all executables in the event system
      */
-    private final ArrayList<EventExecutable> executables = new ArrayList<>();
+    private final CopyOnWriteArrayList<EventExecutable> executables = new CopyOnWriteArrayList<>();
 
     /**
      * Register an object in the event system
@@ -68,8 +70,7 @@ public class EventBus {
      * @param event the event that should be called
      */
     public void post(final Event event) {
-        // Create a copy of the executables list to avoid ConcurrentModificationException
-        for (final EventExecutable eventExecutable : new ArrayList<>(executables)) {
+        for (EventExecutable eventExecutable : executables) {
             if (eventExecutable.getListener() != null)
                 eventExecutable.getListener().call(event);
             if (eventExecutable.getMethod() != null)
