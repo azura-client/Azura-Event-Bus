@@ -68,7 +68,8 @@ public class EventBus {
      * @param event the event that should be called
      */
     public void post(final Event event) {
-        for (final EventExecutable eventExecutable : executables) {
+        // Create a copy of the executables list to avoid ConcurrentModificationException
+        for (final EventExecutable eventExecutable : new ArrayList<>(executables)) {
             if (eventExecutable.getListener() != null)
                 eventExecutable.getListener().call(event);
             if (eventExecutable.getMethod() != null)
