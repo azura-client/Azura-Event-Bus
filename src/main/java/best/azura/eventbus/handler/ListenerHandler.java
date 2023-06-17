@@ -13,7 +13,11 @@ public class ListenerHandler<T extends Event> {
     public ListenerHandler(Type type, Listener<T> listener) {
         this.type = type;
         this.listener = listener;
-        this.typeClass = (Class<?>) ((ParameterizedType)this.type).getActualTypeArguments()[0];
+        if (type instanceof Class<?>)
+            this.typeClass = (Class<?>) type;
+        else if (type instanceof ParameterizedType)
+            this.typeClass = (Class<?>) ((ParameterizedType) this.type).getActualTypeArguments()[0];
+        else throw new IllegalArgumentException("Type must be a class or a parameterized type");
     }
 
     @SuppressWarnings("unchecked")

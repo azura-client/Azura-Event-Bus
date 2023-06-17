@@ -1,9 +1,10 @@
+package test;
+
 import best.azura.eventbus.core.EventBus;
 import best.azura.eventbus.handler.EventHandler;
 import best.azura.eventbus.handler.Listener;
 
 import java.util.Arrays;
-import java.util.Formatter;
 
 public enum Main {
     INSTANCE;
@@ -13,12 +14,12 @@ public enum Main {
     public static void main(String[] args) {
         int epochs = 100;
         double[] times = new double[epochs];
-        INSTANCE.eventBus.register(INSTANCE);
+        INSTANCE.eventBus.subscribe(INSTANCE, TestEvent.class, event -> {});
         for (int j = 0; j < epochs; j++) {
             int iterations = 1000000;
             final long current = System.nanoTime();
             for (int i = 0; i < iterations; i++) {
-                INSTANCE.eventBus.call(new TestEvent());
+                INSTANCE.eventBus.post(new TestEvent());
             }
             final double end = (System.nanoTime() - current) / 1000000.0;
             System.out.println(iterations + " iterations took " + end + "ms");
@@ -36,9 +37,4 @@ public enum Main {
         System.out.printf("Average: %.2fms\n", (Arrays.stream(times).average().getAsDouble()));
         System.out.printf("Min: %.2fms\n", Arrays.stream(times).min().getAsDouble());
     }
-
-    @EventHandler
-    public final Listener<TestEvent> testEventListener = e -> {
-
-    };
 }

@@ -8,13 +8,13 @@ import java.lang.reflect.Method;
 
 public class EventExecutable {
 
-    //Parental object
+    // Parental object
     private final Object parent;
 
-    //MethodHandler instance for registered methods
+    // MethodHandler instance for registered methods
     private MethodHandler method;
 
-    //ListenerHandler instance for registered listeners
+    // ListenerHandler instance for registered listeners
     private ListenerHandler<? extends Event> listener;
 
     private final int priority;
@@ -27,9 +27,15 @@ public class EventExecutable {
         this(null, field, parent, eventPriority);
     }
 
-    public EventExecutable(final Method method, final Field field, final Object parent, final EventPriority eventPriority) {
-        this(method, field, parent, eventPriority.getPriority());
+    public <U extends Event> EventExecutable(final Class<U> clazz, final Listener<U> listener, final Object parent, final EventPriority eventPriority) {
+        this(null, null, parent, eventPriority.getPriority());
+        this.listener = new ListenerHandler<>(clazz, listener);
     }
+
+    public EventExecutable(final Method method, final Field field, final Object parent, final EventPriority eventPriority) {
+        this(method, field,  parent, eventPriority.getPriority());
+    }
+
     public EventExecutable(final Method method, final Field field, final Object parent, final int priority) {
         this.parent = parent;
         this.priority = priority;
