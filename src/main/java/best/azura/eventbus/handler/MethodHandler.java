@@ -4,7 +4,7 @@ import best.azura.eventbus.core.Event;
 
 import java.lang.reflect.Method;
 
-public class MethodHandler {
+public final class MethodHandler {
     private final Object parent;
     private Method method;
 

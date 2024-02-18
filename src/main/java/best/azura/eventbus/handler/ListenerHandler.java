@@ -5,7 +5,7 @@ import best.azura.eventbus.core.Event;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
-public class ListenerHandler<T extends Event> {
+public final class ListenerHandler<T extends Event> {
     private final Type type;
     private final Listener<T> listener;
     private final Class<?> typeClass;

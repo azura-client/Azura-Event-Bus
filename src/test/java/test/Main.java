@@ -19,7 +19,7 @@ public enum Main {
             int iterations = 1000000;
             final long current = System.nanoTime();
             for (int i = 0; i < iterations; i++) {
-                INSTANCE.eventBus.post(new TestEvent());
+                final TestEvent event = INSTANCE.eventBus.post(new TestEvent());
             }
             final double end = (System.nanoTime() - current) / 1000000.0;
             System.out.println(iterations + " iterations took " + end + "ms");

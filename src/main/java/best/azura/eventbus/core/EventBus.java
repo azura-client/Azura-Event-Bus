@@ -11,7 +11,7 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-public class EventBus {
+public final class EventBus {
 
     /**
      * List of all executables in the event system
@@ -69,13 +69,14 @@ public class EventBus {
      *
      * @param event the event that should be called
      */
-    public void post(final Event event) {
+    public <U extends Event> U post(final U event) {
         for (EventExecutable eventExecutable : executables) {
             if (eventExecutable.getListener() != null)
                 eventExecutable.getListener().call(event);
             if (eventExecutable.getMethod() != null)
                 eventExecutable.getMethod().call(event);
         }
+        return event;
     }
 
     /**

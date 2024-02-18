@@ -6,7 +6,7 @@ import best.azura.eventbus.core.EventPriority;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
-public class EventExecutable {
+public final class EventExecutable {
 
     // Parental object
     private final Object parent;
