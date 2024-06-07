@@ -70,12 +70,8 @@ public final class EventBus {
      * @param event the event that should be called
      */
     public <U extends Event> U post(final U event) {
-        for (EventExecutable eventExecutable : executables) {
-            if (eventExecutable.getListener() != null)
-                eventExecutable.getListener().call(event);
-            if (eventExecutable.getMethod() != null)
-                eventExecutable.getMethod().call(event);
-        }
+        for (EventExecutable eventExecutable : executables)
+            eventExecutable.call(event);
         return event;
     }
 

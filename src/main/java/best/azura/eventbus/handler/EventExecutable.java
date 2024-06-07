@@ -57,19 +57,16 @@ public final class EventExecutable {
         }
     }
 
-    public MethodHandler getMethod() {
-        return method;
-    }
-
-    public ListenerHandler<? extends Event> getListener() {
-        return listener;
-    }
-
     public Object getParent() {
         return parent;
     }
 
     public int getPriority() {
         return priority;
+    }
+
+    public void call(final Event event) {
+        if (listener != null) listener.call(event);
+        if (method != null) method.call(event);
     }
 }
