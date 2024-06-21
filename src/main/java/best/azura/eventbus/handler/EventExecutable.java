@@ -19,21 +19,17 @@ public final class EventExecutable {
 
     private final int priority;
 
-    public EventExecutable(final Method method, final Object parent, final EventPriority eventPriority) {
+    public EventExecutable(final Method method, final Object parent, final int eventPriority) {
         this(method, null, parent, eventPriority);
     }
 
-    public EventExecutable(final Field field, final Object parent, final EventPriority eventPriority) {
+    public EventExecutable(final Field field, final Object parent, final int eventPriority) {
         this(null, field, parent, eventPriority);
     }
 
-    public <U extends Event> EventExecutable(final Class<U> clazz, final Listener<U> listener, final Object parent, final EventPriority eventPriority) {
-        this(null, null, parent, eventPriority.getPriority());
+    public <U extends Event> EventExecutable(final Class<U> clazz, final Listener<U> listener, final Object parent, final int eventPriority) {
+        this((Method) null, null, parent, eventPriority);
         this.listener = new ListenerHandler<>(clazz, listener);
-    }
-
-    public EventExecutable(final Method method, final Field field, final Object parent, final EventPriority eventPriority) {
-        this(method, field,  parent, eventPriority.getPriority());
     }
 
     public EventExecutable(final Method method, final Field field, final Object parent, final int priority) {

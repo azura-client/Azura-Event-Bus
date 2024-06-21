@@ -47,7 +47,7 @@ public final class EventBus {
      * @param listener   the listener to call
      * @param priority   the priority of the listener
      */
-    public <U extends Event> void subscribe(final Object object, final Class<U> eventClass, final Listener<U> listener, final EventPriority priority) {
+    public <U extends Event> void subscribe(final Object object, final Class<U> eventClass, final Listener<U> listener, final int priority) {
         executables.add(new EventExecutable(eventClass, listener, object, priority));
         executables.sort(Comparator.comparingInt(EventExecutable::getPriority));
     }
